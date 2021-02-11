@@ -15,7 +15,7 @@
     "flexbox grid"
   ],
   "author": "Mosaad (https://themosaad.com)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/theMosaad/tailwindcss-layout-grid/issues"
   },
