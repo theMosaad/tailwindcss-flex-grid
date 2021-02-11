@@ -1,6 +1,6 @@
-# tailwindcss-delicious-hamburgers
+# tailwindcss-layout-grid 
 
-A Tailwind CSS component for creating animated hamburger menus. This is a port of [Delicious Hamburgers](https://github.com/kapoko/delicious-hamburgers).
+A Tailwindcss plugin that enables you to create a set of bootstrap grids with Tailwindcss classes like .w-1/12 instead of .col-1
 
 ## Installation
 
