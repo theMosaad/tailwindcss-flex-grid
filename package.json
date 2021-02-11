@@ -4,7 +4,8 @@
   "description": "A Tailwindcss plugin that enables you to create a set of bootstrap grids with Tailwindcss classes like .w-1/12 instead of .col-1",
   "main": "index.js",
   "scripts": {
-    "release": "np"
+    "release": "np",
+    "test": ""
   },
   "repository": {
     "type": "git",
