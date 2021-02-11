@@ -1,0 +1,41 @@
+{
+  "name": "tailwindcss-layout-grid",
+  "version": "1.0.0",
+  "description": "A Tailwindcss plugin that enables you to create a set of bootstrap grids with Tailwindcss classes like .w-1/12 instead of .col-1",
+  "main": "index.js",
+  "scripts": {
+    "release": "np"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theMosaad/tailwindcss-layout-grid.git"
+  },
+  "keywords": [
+    "bootstrap grid",
+    "flexbox grid"
+  ],
+  "author": "Mosaad (https://themosaad.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theMosaad/tailwindcss-layout-grid/issues"
+  },
+  "homepage": "https://github.com/theMosaad/tailwindcss-layout-grid#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-wesbos": "1.0.1",
+    "eslint-plugin-html": "^6.1.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "np": "^6.5.0",
+    "prettier": "^2.1.1",
+    "stylelint": "^13.9.0",
+    "stylelint-config-standard": "^20.0.0",
+    "tailwindcss": "^2.0.2"
+  }
+}
