@@ -1,5 +1,5 @@
 {
-  "name": "tailwindcss-layout-grid",
+  "name": "tailwindcss-flex-grid",
   "version": "2.0.0",
   "description": "A Tailwindcss plugin that enables you to create a set of bootstrap grids with Tailwindcss classes like .w-1/12 instead of .col-1",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theMosaad/tailwindcss-layout-grid.git"
+    "url": "git+https://github.com/theMosaad/tailwindcss-flex-grid.git"
   },
   "keywords": [
     "bootstrap grid",
@@ -18,9 +18,9 @@
   "author": "Mosaad (https://themosaad.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/theMosaad/tailwindcss-layout-grid/issues"
+    "url": "https://github.com/theMosaad/tailwindcss-flex-grid/issues"
   },
-  "homepage": "https://github.com/theMosaad/tailwindcss-layout-grid#readme",
+  "homepage": "https://github.com/theMosaad/tailwindcss-flex-grid#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^7.8.1",

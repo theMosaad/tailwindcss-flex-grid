@@ -1,4 +1,4 @@
-# tailwindcss-layout-grid 
+# tailwindcss-flex-grid
 
 A Tailwindcss plugin that enables you to create a set of bootstrap grids with Tailwindcss classes like .w-1/12 instead of .col-1
 
@@ -6,10 +6,10 @@ A Tailwindcss plugin that enables you to create a set of bootstrap grids with Ta
 
 ```sh
 # Using npm
-npm install tailwindcss-layout-grid
+npm install tailwindcss-flex-grid
 
 # Using yarn
-yarn add tailwindcss-layout-grid
+yarn add tailwindcss-flex-grid
 ```
 
 ## Examples

@@ -34,9 +34,9 @@ module.exports = plugin.withOptions(
 
       const baseStyles = {}
       const baseStylesAtRules = {}
-      const rowVariants = variants(`layoutGrid`)
+      const rowVariants = variants(`flexGrid`)
 
-      _.forEach(theme(`layoutGrid`), (rowOptions, rowName) => {
+      _.forEach(theme(`flexGrid`), (rowOptions, rowName) => {
         const row = _.defaults({}, rowOptions, defaultRowOptions)
         row.name = `row${rowName === `default` ? `` : `-${rowName}`}`
         row.gutterXValues = []
@@ -583,12 +583,12 @@ module.exports = plugin.withOptions(
     },
   () => ({
     theme: {
-      layoutGrid: {
+      flexGrid: {
         default: defaultRowOptions,
       },
     },
     variants: {
-      layoutGrid: [`responsive`],
+      flexGrid: [`responsive`],
     },
   })
 )
