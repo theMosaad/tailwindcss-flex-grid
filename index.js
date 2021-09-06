@@ -630,7 +630,7 @@ module.exports = plugin.withOptions(
 
           addComponents({
             [`.${e(`${options.componentPrefix}${container.name}`)}`]: {
-              display: 'flow-root',
+              display: `flow-root`,
               paddingLeft: container.paddingValues,
               paddingRight: container.paddingValues,
             },
