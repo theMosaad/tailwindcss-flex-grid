@@ -1,6 +1,6 @@
 {
   "name": "tailwindcss-flex-grid",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A Tailwindcss plugin that enables you to create a set of bootstrap grids with Tailwindcss classes like .w-1/12 instead of .col-1",
   "main": "index.js",
   "scripts": {
