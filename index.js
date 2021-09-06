@@ -20,23 +20,26 @@ const defaultRowOptions = {
   },
 }
 
+const defaultContainerOptions = {
+  padding: `15px`,
+}
+
 module.exports = plugin.withOptions(
   (options = {}) =>
     function ({ theme, variants, e, addBase, addComponents, addUtilities }) {
       options = _.defaults({}, options, defaultOptions)
 
-      const getMediaQuery = function (screen) {
-        if (theme(`screens.${screen}`)) {
-          return `@screen ${screen}`
-        }
-        return `@media (min-width: ${screen})`
-      }
-
       const baseStyles = {}
       const baseStylesAtRules = {}
-      const rowVariants = variants(`flexGrid`)
+      const flexGridVariants = variants(`flexGrid`)
 
-      _.forEach(theme(`flexGrid`), (rowOptions, rowName) => {
+      _.forEach(Object.keys(theme(`screens`)), (screen) => {
+        if (!baseStylesAtRules[`@screen ${screen}`]) {
+          baseStylesAtRules[`@screen ${screen}`] = {}
+        }
+      })
+
+      _.forEach(theme(`flexGrid.rows`), (rowOptions, rowName) => {
         const row = _.defaults({}, rowOptions, defaultRowOptions)
         row.name = `row${rowName === `default` ? `` : `-${rowName}`}`
         row.gutterXValues = []
@@ -84,11 +87,11 @@ module.exports = plugin.withOptions(
             ] = `calc(var(--${row.name}-gutter-x) / 2 * -1)`
 
             _.forEach(nonDefaultGutters, (gutter, screen) => {
-              const mediaQuery = getMediaQuery(screen)
-              if (!baseStylesAtRules[mediaQuery]) {
-                baseStylesAtRules[mediaQuery] = {}
+              if (!baseStylesAtRules[`@screen ${screen}`]) {
+                baseStylesAtRules[`@screen ${screen}`] = {}
               }
-              baseStylesAtRules[mediaQuery][`--${row.name}-gutter-x`] = gutter
+              baseStylesAtRules[`@screen ${screen}`][`--${row.name}-gutter-x`] =
+                gutter
             })
           }
         } else if (row.gutterX) {
@@ -145,11 +148,11 @@ module.exports = plugin.withOptions(
             ] = `calc(var(--${row.name}-gutter-y) / 2 * -1)`
 
             _.forEach(nonDefaultGutters, (gutter, screen) => {
-              const mediaQuery = getMediaQuery(screen)
-              if (!baseStylesAtRules[mediaQuery]) {
-                baseStylesAtRules[mediaQuery] = {}
+              if (!baseStylesAtRules[`@screen ${screen}`]) {
+                baseStylesAtRules[`@screen ${screen}`] = {}
               }
-              baseStylesAtRules[mediaQuery][`--${row.name}-gutter-y`] = gutter
+              baseStylesAtRules[`@screen ${screen}`][`--${row.name}-gutter-y`] =
+                gutter
             })
           }
         } else if (row.gutterY) {
@@ -211,7 +214,7 @@ module.exports = plugin.withOptions(
                   maxWidth: row.gutterXHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
           if (!_.isEmpty(row.gutterYValues)) {
@@ -236,7 +239,7 @@ module.exports = plugin.withOptions(
                   maxWidth: row.gutterYHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
         }
@@ -292,7 +295,7 @@ module.exports = plugin.withOptions(
                   paddingLeft: row.gutterXHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
           if (!_.isEmpty(row.gutterYValues)) {
@@ -345,7 +348,7 @@ module.exports = plugin.withOptions(
                   paddingLeft: row.gutterYHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
         }
@@ -401,7 +404,7 @@ module.exports = plugin.withOptions(
                   marginLeft: row.gutterXHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
           if (!_.isEmpty(row.gutterYValues)) {
@@ -454,7 +457,7 @@ module.exports = plugin.withOptions(
                   marginLeft: row.gutterYHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
         }
@@ -510,7 +513,7 @@ module.exports = plugin.withOptions(
                   marginLeft: row.negativeGutterXHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
           if (!_.isEmpty(row.negativeGutterYValues)) {
@@ -563,11 +566,173 @@ module.exports = plugin.withOptions(
                   marginLeft: row.negativeGutterYHalfValues,
                 },
               },
-              rowVariants
+              flexGridVariants
             )
           }
         }
       })
+
+      _.forEach(
+        theme(`flexGrid.containers`),
+        (containerOptions, containerName) => {
+          const container = _.defaults(
+            {},
+            containerOptions,
+            defaultContainerOptions
+          )
+          container.name = `container${
+            containerName === `default` ? `` : `-${containerName}`
+          }`
+          container.paddingValues = []
+          container.negativePaddingValues = []
+
+          if (_.isPlainObject(container.padding)) {
+            if (container.padding.default) {
+              container.paddingValues.push(container.padding.default)
+              container.negativePaddingValues.push(
+                `-${container.padding.default}`
+              )
+            }
+
+            const nonDefaultPaddings = _.pickBy(
+              container.padding,
+              (padding, screen) => screen !== `default`
+            )
+
+            if (!_.isEmpty(nonDefaultPaddings)) {
+              container.paddingValues.push(`var(--${container.name}-padding)`)
+              container.negativePaddingValues.push(
+                `var(--${container.name}-padding-negative)`
+              )
+
+              if (container.padding.default) {
+                baseStyles[`--${container.name}-padding`] =
+                  container.padding.default
+              }
+
+              baseStyles[
+                `--${container.name}-padding-negative`
+              ] = `calc(var(--${container.name}-padding) * -1)`
+
+              _.forEach(nonDefaultPaddings, (padding, screen) => {
+                if (!baseStylesAtRules[`@screen ${screen}`]) {
+                  baseStylesAtRules[`@screen ${screen}`] = {}
+                }
+                baseStylesAtRules[`@screen ${screen}`][
+                  `--${container.name}-padding`
+                ] = padding
+              })
+            }
+          } else if (container.padding) {
+            container.paddingValues.push(container.padding)
+            container.negativePaddingValues.push(`-${container.padding}`)
+          }
+
+          addComponents({
+            [`.${e(`${options.componentPrefix}${container.name}`)}`]: {
+              display: 'flow-root',
+              paddingLeft: container.paddingValues,
+              paddingRight: container.paddingValues,
+            },
+          })
+
+          if (options.paddingUtilities && !_.isEmpty(container.paddingValues)) {
+            addUtilities(
+              {
+                [`.${e(`p-${container.name}`)}`]: {
+                  padding: container.paddingValues,
+                },
+                [`.${e(`py-${container.name}`)}`]: {
+                  paddingTop: container.paddingValues,
+                  paddingBottom: container.paddingValues,
+                },
+                [`.${e(`px-${container.name}`)}`]: {
+                  paddingLeft: container.paddingValues,
+                  paddingRight: container.paddingValues,
+                },
+                [`.${e(`pt-${container.name}`)}`]: {
+                  paddingTop: container.paddingValues,
+                },
+                [`.${e(`pr-${container.name}`)}`]: {
+                  paddingRight: container.paddingValues,
+                },
+                [`.${e(`pb-${container.name}`)}`]: {
+                  paddingBottom: container.paddingValues,
+                },
+                [`.${e(`pl-${container.name}`)}`]: {
+                  paddingLeft: container.paddingValues,
+                },
+              },
+              flexGridVariants
+            )
+          }
+
+          if (options.marginUtilities && !_.isEmpty(container.paddingValues)) {
+            addUtilities(
+              {
+                [`.${e(`m-${container.name}`)}`]: {
+                  margin: container.paddingValues,
+                },
+                [`.${e(`my-${container.name}`)}`]: {
+                  marginTop: container.paddingValues,
+                  marginBottom: container.paddingValues,
+                },
+                [`.${e(`mx-${container.name}`)}`]: {
+                  marginLeft: container.paddingValues,
+                  marginRight: container.paddingValues,
+                },
+                [`.${e(`mt-${container.name}`)}`]: {
+                  marginTop: container.paddingValues,
+                },
+                [`.${e(`mr-${container.name}`)}`]: {
+                  marginRight: container.paddingValues,
+                },
+                [`.${e(`mb-${container.name}`)}`]: {
+                  marginBottom: container.paddingValues,
+                },
+                [`.${e(`ml-${container.name}`)}`]: {
+                  marginLeft: container.paddingValues,
+                },
+              },
+              flexGridVariants
+            )
+          }
+
+          if (
+            options.negativeMarginUtilities &&
+            !_.isEmpty(container.negativePaddingValues)
+          ) {
+            addUtilities(
+              {
+                [`.${e(`-m-${container.name}`)}`]: {
+                  margin: container.negativePaddingValues,
+                },
+                [`.${e(`-my-${container.name}`)}`]: {
+                  marginTop: container.negativePaddingValues,
+                  marginBottom: container.negativePaddingValues,
+                },
+                [`.${e(`-mx-${container.name}`)}`]: {
+                  marginLeft: container.negativePaddingValues,
+                  marginRight: container.negativePaddingValues,
+                },
+                [`.${e(`-mt-${container.name}`)}`]: {
+                  marginTop: container.negativePaddingValues,
+                },
+                [`.${e(`-mr-${container.name}`)}`]: {
+                  marginRight: container.negativePaddingValues,
+                },
+                [`.${e(`-mb-${container.name}`)}`]: {
+                  marginBottom: container.negativePaddingValues,
+                },
+                [`.${e(`-ml-${container.name}`)}`]: {
+                  marginLeft: container.negativePaddingValues,
+                },
+              },
+              flexGridVariants
+            )
+          }
+        }
+      )
 
       if (!_.isEmpty(baseStyles)) {
         addBase({
@@ -584,7 +749,12 @@ module.exports = plugin.withOptions(
   () => ({
     theme: {
       flexGrid: {
-        default: defaultRowOptions,
+        rows: {
+          default: defaultRowOptions,
+        },
+        containers: {
+          default: defaultContainerOptions,
+        },
       },
     },
     variants: {
