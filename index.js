@@ -11,11 +11,11 @@ const defaultOptions = {
 
 const defaultRowOptions = {
   gutterX: {
-    default: `20px`,
+    DEFAULT: `20px`,
     lg: `42px`,
   },
   gutterY: {
-    default: `20px`,
+    DEFAULT: `20px`,
     lg: `42px`,
   },
 }
@@ -27,7 +27,7 @@ const defaultContainerOptions = {
 module.exports = plugin.withOptions(
   (options = {}) =>
     function ({ theme, variants, e, addBase, addComponents, addUtilities }) {
-      options = _.defaults({}, options, defaultOptions)
+      options = _.defau({}, options, defaultOptions)
 
       const baseStyles = {}
       const baseStylesAtRules = {}
@@ -41,7 +41,7 @@ module.exports = plugin.withOptions(
 
       _.forEach(theme(`flexGrid.rows`), (rowOptions, rowName) => {
         const row = _.defaults({}, rowOptions, defaultRowOptions)
-        row.name = `row${rowName === `default` ? `` : `-${rowName}`}`
+        row.name = `row${rowName === `DEFAULT` ? `` : `-${rowName}`}`
         row.gutterXValues = []
         row.negativeGutterXValues = []
         row.gutterXHalfValues = []
@@ -52,14 +52,14 @@ module.exports = plugin.withOptions(
         row.negativeGutterYHalfValues = []
 
         if (_.isPlainObject(row.gutterX)) {
-          if (row.gutterX.default) {
-            row.gutterXValues.push(row.gutterX.default)
-            row.negativeGutterXValues.push(`-${row.gutterX.default}`)
+          if (row.gutterX.DEFAULT) {
+            row.gutterXValues.push(row.gutterX.DEFAULT)
+            row.negativeGutterXValues.push(`-${row.gutterX.DEFAULT}`)
           }
 
           const nonDefaultGutters = _.pickBy(
             row.gutterX,
-            (gutter, screen) => screen !== `default`
+            (gutter, screen) => screen !== `DEFAULT`
           )
 
           if (!_.isEmpty(nonDefaultGutters)) {
@@ -72,8 +72,8 @@ module.exports = plugin.withOptions(
               `var(--${row.name}-gutter-x-half-negative)`
             )
 
-            if (row.gutterX.default) {
-              baseStyles[`--${row.name}-gutter-x`] = row.gutterX.default
+            if (row.gutterX.DEFAULT) {
+              baseStyles[`--${row.name}-gutter-x`] = row.gutterX.DEFAULT
             }
 
             baseStyles[
@@ -113,14 +113,14 @@ module.exports = plugin.withOptions(
         }
 
         if (_.isPlainObject(row.gutterY)) {
-          if (row.gutterY.default) {
-            row.gutterYValues.push(row.gutterY.default)
-            row.negativeGutterYValues.push(`-${row.gutterY.default}`)
+          if (row.gutterY.DEFAULT) {
+            row.gutterYValues.push(row.gutterY.DEFAULT)
+            row.negativeGutterYValues.push(`-${row.gutterY.DEFAULT}`)
           }
 
           const nonDefaultGutters = _.pickBy(
             row.gutterY,
-            (gutter, screen) => screen !== `default`
+            (gutter, screen) => screen !== `DEFAULT`
           )
 
           if (!_.isEmpty(nonDefaultGutters)) {
@@ -133,8 +133,8 @@ module.exports = plugin.withOptions(
               `var(--${row.name}-gutter-y-half-negative)`
             )
 
-            if (row.gutterY.default) {
-              baseStyles[`--${row.name}-gutter-y`] = row.gutterY.default
+            if (row.gutterY.DEFAULT) {
+              baseStyles[`--${row.name}-gutter-y`] = row.gutterY.DEFAULT
             }
 
             baseStyles[
@@ -581,22 +581,22 @@ module.exports = plugin.withOptions(
             defaultContainerOptions
           )
           container.name = `container${
-            containerName === `default` ? `` : `-${containerName}`
+            containerName === `DEFAULT` ? `` : `-${containerName}`
           }`
           container.paddingValues = []
           container.negativePaddingValues = []
 
           if (_.isPlainObject(container.padding)) {
-            if (container.padding.default) {
-              container.paddingValues.push(container.padding.default)
+            if (container.padding.DEFAULT) {
+              container.paddingValues.push(container.padding.DEFAULT)
               container.negativePaddingValues.push(
-                `-${container.padding.default}`
+                `-${container.padding.DEFAULT}`
               )
             }
 
             const nonDefaultPaddings = _.pickBy(
               container.padding,
-              (padding, screen) => screen !== `default`
+              (padding, screen) => screen !== `DEFAULT`
             )
 
             if (!_.isEmpty(nonDefaultPaddings)) {
@@ -605,9 +605,9 @@ module.exports = plugin.withOptions(
                 `var(--${container.name}-padding-negative)`
               )
 
-              if (container.padding.default) {
+              if (container.padding.DEFAULT) {
                 baseStyles[`--${container.name}-padding`] =
-                  container.padding.default
+                  container.padding.DEFAULT
               }
 
               baseStyles[
@@ -750,10 +750,10 @@ module.exports = plugin.withOptions(
     theme: {
       flexGrid: {
         rows: {
-          default: defaultRowOptions,
+          DEFAULT: defaultRowOptions,
         },
         containers: {
-          default: defaultContainerOptions,
+          DEFAULT: defaultContainerOptions,
         },
       },
     },
