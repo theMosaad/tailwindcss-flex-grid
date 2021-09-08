@@ -27,7 +27,7 @@ const defaultContainerOptions = {
 module.exports = plugin.withOptions(
   (options = {}) =>
     function ({ theme, variants, e, addBase, addComponents, addUtilities }) {
-      options = _.defau({}, options, defaultOptions)
+      options = _.defaults({}, options, defaultOptions)
 
       const baseStyles = {}
       const baseStylesAtRules = {}
